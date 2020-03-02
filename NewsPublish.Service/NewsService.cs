@@ -139,7 +139,7 @@ namespace NewsPublish.Service
                 data = new NewsModel
                 {
                     Id=news.Id,
-                    NewsClassifyName=news.NewsCalssify.Name,
+                    NewsClassifyName=news.NewsClassify.Name,
                     Title=news.Title,
                     Image=news.Image,
                     Contents=news.Contents,
@@ -182,7 +182,7 @@ namespace NewsPublish.Service
                 response.data.Add(new NewsModel
                 {
                     Id = news.Id,
-                    NewsClassifyName = news.NewsCalssify.Name,
+                    NewsClassifyName = news.NewsClassify.Name,
                     Title = news.Title,
                     Image = news.Image,
                     Contents = news.Contents,
@@ -207,7 +207,7 @@ namespace NewsPublish.Service
                 response.data.Add(new NewsModel
                 {
                     Id = news.Id,
-                    NewsClassifyName = news.NewsCalssify.Name,
+                    NewsClassifyName = news.NewsClassify.Name,
                     Title = news.Title,
                     Image = news.Image,
                     Contents = news.Contents.Length>50?news.Contents.Substring(0,50):news.Contents,
@@ -233,7 +233,7 @@ namespace NewsPublish.Service
                 response.data.Add(new NewsModel
                 {
                     Id = news.Id,
-                    NewsClassifyName = news.NewsCalssify.Name,
+                    NewsClassifyName = news.NewsClassify.Name,
                     Title = news.Title,
                     Image = news.Image,
                     Contents = news.Contents.Length > 50 ? news.Contents.Substring(0, 50) : news.Contents,
@@ -279,7 +279,7 @@ namespace NewsPublish.Service
                 response.data.Add(new NewsModel
                 {
                     Id = n.Id,
-                    NewsClassifyName = n.NewsCalssify.Name,
+                    NewsClassifyName = n.NewsClassify.Name,
                     Title = n.Title,
                     Image = n.Image,
                     Contents = n.Contents.Length > 50 ? n.Contents.Substring(0, 50) : n.Contents,

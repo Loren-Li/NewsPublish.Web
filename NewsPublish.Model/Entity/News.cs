@@ -17,7 +17,7 @@ namespace NewsPublish.Model.Entity
         public string Contents { get; set; }
         public DateTime PublishDate { get; set; }
         public string Remark { get; set; }
-        public virtual NewsClassify NewsCalssify { get; set; }
+        public virtual NewsClassify NewsClassify { get; set; }
         public virtual ICollection<NewsComment> NewsComment { get; set; }
     }
 }
