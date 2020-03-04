@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewData["Title"] = "BannerAdd";
+    ViewData["Title"] = "NewsAdd";
 }
+@model NewsPublish.Model.Response.ResponseModel
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -19,31 +20,48 @@
     <link type="text/css" rel="stylesheet" href="/admin/css/H-ui.admin.css" />
     <link type="text/css" rel="stylesheet" href="/admin/font/font-awesome.min.css" />
     <!--[if IE 7]>
-    <link href="font/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/font/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
     <![endif]-->
-    <title>添加Banner</title>
+    <title>添加新闻</title>
 </head>
 <body>
     <div class="pd-20">
         <div class="Huiform">
-            <form method="post" id="addForm" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" id="addForm">
                 <table class="table table-bg">
                     <tbody>
                         <tr>
-                            <th class="text-r">Banner图片：</th>
-                            <td><input type="file" style="width:300px" class="" name="img" multiple datatype="*2-120" nullmsg="Banner图片不能为空"></td>
+                            <th width="300" class="text-r"><span class="c-red">*</span> 新闻标题：</th>
+                            <td>
+                                <input type="text" style="width:300px" class="input-text" value="" placeholder="" id="Title" name="Title" datatype="*2-16" nullmsg="新闻标题不能为空">
+                            </td>
                         </tr>
                         <tr>
-                            <th class="text-r">跳转地址：</th>
-                            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="url" name="url"></td>
+                            <th class="text-r"><span class="c-red">*</span> 新闻类别：</th>
+                            <td>
+                                <select class="select" id="NewsClassifyId" name="NewsClassifyId">
+                                    @if (Model.code == 200)
+                                    {
+                                        @foreach (var classify in Model.data)
+                                        {
+                                            <option value="@classify.Id">@classify.Name</option>
+                                        }
+                                    }
+
+                                </select>
+                            </td>
                         </tr>
                         <tr>
-                            <th class="text-r">备注：</th>
-                            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="remark" name="remark"></td>
+                            <th class="text-r">新闻图片：</th>
+                            <td><input type="file" class="" name="img" multiple datatype="*2-120" nullmsg="新闻图片不能为空"></td>
+                        </tr>
+                        <tr>
+                            <th class="text-r">新闻内容：</th>
+                            <td><textarea class="input-text" name="Contents" id="Contents" style="height:200px;width:350px;"></textarea></td>
                         </tr>
                         <tr>
                             <th></th>
-                            <td><button class="btn btn-success radius" type="button" onclick="addBanner()"><i class="icon-ok"></i> 确定</button></td>
+                            <td><button class="btn btn-success radius" type="button" onclick="add()"><i class="icon-ok"></i> 确定</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -56,7 +74,7 @@
     <script type="text/javascript" src="/admin/js/H-ui.admin.js"></script>
     <script type="text/javascript">
         $(".Huiform").Validform();
-        function addBanner() {
+        function add() {
             var formData = new FormData(document.getElementById("addForm"));
             $.ajax({
                 type: 'post',
@@ -64,7 +82,7 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                url: "/Admin/Banner/AddNews",
+                url: "/Admin/News/AddNews",
                 data: formData,
                 success: function (data) {
                     if (data.code == 200) {

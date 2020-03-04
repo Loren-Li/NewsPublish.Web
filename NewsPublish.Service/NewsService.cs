@@ -185,7 +185,7 @@ namespace NewsPublish.Service
                     NewsClassifyName = news.NewsClassify.Name,
                     Title = news.Title,
                     Image = news.Image,
-                    Contents = news.Contents,
+                    Contents = news.Contents.Length>50?news.Contents.Substring(0,50)+"...":news.Contents,
                     PublishDate = news.PublishDate.ToString("yyyy-MM-dd"),
                     CommentCount = news.NewsComment.Count,
                     Remark = news.Remark

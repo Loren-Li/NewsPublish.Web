@@ -40,12 +40,14 @@
                 }
             </select>
             &nbsp;
-            <input type="text" class="input-text" style="width:250px" placeholder="输入新闻标题" id="keyword" name="keyword">&nbsp;<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜新闻</button>
+            <input type="text" class="input-text" style="width:250px" placeholder="输入新闻标题" id="keyword" name="keyword">
+            &nbsp;
+            <button type="button" class="btn btn-success" onclick="search()"><i class="icon-search"></i> 搜新闻</button>
 
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20">
             <span class="l">
-                <a href="javascript:;" onClick="user_add('550','700','添加新闻','news-add.html')" class="btn btn-primary radius"><i class="icon-plus"></i> 添加新闻</a>
+                <a href="javascript:;" onClick="user_add('550','700','添加新闻','/Admin/News/NewsAdd')" class="btn btn-primary radius"><i class="icon-plus"></i> 添加新闻</a>
             </span>
 
         </div>
@@ -96,7 +98,7 @@
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                { "orderable": false, "aTargets": [0, 1,2,3,4,5,6,7] }// 制定列不参与排序
+                { "orderable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7] }// 制定列不参与排序
             ]
         });
         function getNews(pageIndex, pageSize, classifyId, keyword) {
@@ -125,12 +127,42 @@
                 }
             });
         }
+        function search() {
+            var classifyId = $("#classifyId").val();
+            var keyword = $("#keyword").val();
+            pageIndex = 1;
+            getNews(pageIndex, pageSize, classifyId, keyword);
+        }
         //删除新闻
         function del(obj, id) {
             layer.confirm('确认要删除吗？', function (index) {
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!', 1);
+                $.ajax({
+                    type: 'post',
+                    async: true,
+                    url: "/Admin/News/DelNews",
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.code == 200) {
+                            layer.msg('已删除!', 2);
+                            if (currentPageCount == 1) {
+                                if (pageIndex == 1) {
+                                    reload();
+                                } else {
+                                    getNews(pageIndex - 1, pageSize, classifyId, keyword);
+                                }
+                            } else {
+                                getNews(pageIndex, pageSize, classifyId, keyword);
+                                //$(obj).parents("tr").remove();
+                            }
+                        } else {
+                            layer.msg(result.result, 1);
+                        }
+                    }
+                });
             });
+        }
+        function reload() {
+            location.replace(location.href);
         }
     </script>
 
