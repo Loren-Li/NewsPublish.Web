@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NewsPublish.Service;
 using NewsPublish.Web.Models;
 
 namespace NewsPublish.Web.Controllers
@@ -12,15 +13,19 @@ namespace NewsPublish.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private NewsService _newsService;
+        private BannerService _bannerService;
+        public HomeController(ILogger<HomeController> logger, NewsService newsService,BannerService bannerService)
         {
             _logger = logger;
+            this._newsService = newsService;
+            this._bannerService = bannerService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            ViewData["Title"] = "首页";
+            return View(_newsService.GetNewsClassifyList());
         }
 
         public IActionResult Privacy()
