@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NewsPublish.Model.Response;
 using NewsPublish.Service;
 using NewsPublish.Web.Models;
 
@@ -27,11 +28,40 @@ namespace NewsPublish.Web.Controllers
             ViewData["Title"] = "首页";
             return View(_newsService.GetNewsClassifyList());
         }
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public JsonResult GetBanner()
         {
-            return View();
+            return Json(_bannerService.GetBannerList());
         }
+        [HttpGet]
+        public JsonResult GetTotalNews()
+        {
+            return Json(_newsService.GetNewsCount(c=>true));
+        }
+        [HttpGet]
+        public JsonResult GetHomeNews()
+        {
+            return Json(_newsService.GetNewsList(c => true, 6));
+        }
+        [HttpGet]
+        public JsonResult GetNewCommentNewsList()
+        {
+            return Json(_newsService.GetNewCommentNewsList(c=>true,5));
+        }
+        [HttpGet]
+        public JsonResult SearchOneNews(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+                return Json(new ResponseModel { code = 0, result = "关键字不能为空" });
+            return Json(_newsService.GetSearchOneNews(c=>c.Title.Contains(keyword)));
+        }
+
+        public IActionResult Wrong()
+        {
+            ViewData["Title"] = "404";
+            return View(_newsService.GetNewsClassifyList());
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -129,7 +129,7 @@ namespace NewsPublish.Service
         /// </summary>
         public ResponseModel GetOneNews(int id)
         {
-            var news = _db.News.Include("NewsCalssify").Include("NewsComment").FirstOrDefault(c => c.Id == id);
+            var news = _db.News.Include("NewsClassify").Include("NewsComment").FirstOrDefault(c => c.Id == id);
             if (news == null)
                 return new ResponseModel { code = 0, result = "新闻不存在" };
             return new ResponseModel
@@ -222,10 +222,10 @@ namespace NewsPublish.Service
         /// 获取最新评论的新闻集合
         /// </summary>
         /// <returns></returns>
-        public ResponseModel GetNewCommentNewsLIst(Expression<Func<News, bool>> where,int topCount)
+        public ResponseModel GetNewCommentNewsList(Expression<Func<News, bool>> where,int topCount)
         {
             var newsIds = _db.NewsComment.OrderByDescending(c => c.AddTime).GroupBy(c => c.NewsId).Select(c => c.Key).Take(topCount);
-            var list = _db.News.Include("NewsClassify").Include("NewsComment").Where(c=>newsIds.Contains(c.Id)).OrderByDescending(c => c.PublishDate);
+            var list = _db.News.Include("NewsClassify").Include("NewsComment").Where(c=>newsIds.Contains(c.Id)).Where(where).OrderByDescending(c => c.PublishDate);
             var response = new ResponseModel { code = 200, result = "最新评论新闻获取成功" };
             response.data = new List<NewsModel>();
             foreach (var news in list)

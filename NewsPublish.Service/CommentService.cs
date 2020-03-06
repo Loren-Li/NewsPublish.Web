@@ -41,8 +41,8 @@ namespace NewsPublish.Service
                 return new ResponseModel { code = 200, result = "评论添加成功",
                     data = new  {
                         contents = comment.Contents,
-                        floor = "#" + news.data.CommentCount + 1,
-                        addTime=DateTime.Now
+                        floor = "#" + (news.data.CommentCount + 1),
+                        addTime=DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
                 } };
             }
             return new ResponseModel { code = 0, result = "评论添加失败" };
